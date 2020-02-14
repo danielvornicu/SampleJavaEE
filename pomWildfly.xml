@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>tech.dev</groupId>
+    <artifactId>SampleJavaEE</artifactId>
+    <version>1.0.0</version>
+    <name>Examples Java EE</name>
+    <description>Examples Java EE</description>
+    <packaging>war</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <!--Log-->
+        <slf4j.version>1.7.25</slf4j.version>
+        <logback.version>1.2.3</logback.version>
+        <!-- Databases -->
+        <!--H2 Database-->
+        <h2.version>1.4.196</h2.version>
+        <!--Hibernate-->
+        <hibernate.version>5.3.6.Final</hibernate.version>
+        <!-- Version Hibernate Validator -->
+        <hibernate-validator-version>6.0.10.Final</hibernate-validator-version>
+        <!--JPA-->
+        <jpa.version>2.1.0</jpa.version>
+
+        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <!--Servlet-->
+        <servlet.version>3.1.0</servlet.version>
+        <!--Mojarra JSF version 2.2.18 last mais c'est 2.2.10 la derniere version qui marche avec Jetty Embedded -->
+        <!--Until Mojarra 2.2.10, the JSF implementation scanned the classpath itself to detect annotated classes.-->
+        <!--Since Mojarra 2.2.11, JSF relies on new API: the ServletContainerInitializer and we will use jetty-maven-plugin-->
+        <jsf.version>2.2.10</jsf.version>
+        <!--Primefaces 6.2 last-->
+        <primefaces.version>6.1</primefaces.version>
+        <primefaces.themes.version>1.0.10</primefaces.themes.version>
+        <!--EL version-->
+        <el.api.impl.version>2.2</el.api.impl.version>
+
+        <javax.faces-api.version>2.3</javax.faces-api.version>
+        <!--CDI-->
+        <javax.cdi-api.version>2.0.SP1</javax.cdi-api.version>
+        <!--Annotations-->
+        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
+        <!--JUnit-->
+        <junit.version>4.12</junit.version>
+
+        <!--JPA provider library: EclipseLink-->
+        <org.eclipse.persistence.jpa.version>2.7.0</org.eclipse.persistence.jpa.version>
+        <!--Glassfish Embedded-->
+        <glassfish-embedded.version>4.0</glassfish-embedded.version>
+
+        <!--Jetty 9.4.6.v20170531 testé-->
+        <jetty.version>9.4.15.v20190215</jetty.version>
+        <!--Jetty JSP 9.2.25.v20180606 testé-->
+        <jetty.jsp.version>9.2.26.v20180806</jetty.jsp.version>
+        <!--Mock-->
+        <mockito.version>1.10.19</mockito.version>
+
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven-ejb-plugin.version>3.0.1</maven-ejb-plugin.version>
+
+        <jetty-maven-plugin.version>9.4.8.v20171121</jetty-maven-plugin.version>
+        <!--not used-->
+        <wildfly-maven-plugin.version>2.0.1.Final</wildfly-maven-plugin.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--Log-->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!--H2 Database-->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!--JPA-->
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>javax.persistence</artifactId>
+                <version>${jpa.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!--JPA provider library: EclipseLink-->
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.jpa</artifactId>
+                <version>${org.eclipse.persistence.jpa.version}</version>
+            </dependency>
+
+            <!--JAVA EE Api use for JSF annotations(conflit with Glassfish Embedded): we must not use Glassfish Dependency -->
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>7.0</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!--Glassfish Embedded: EJB embedded container for testing EJB in main class-->
+            <dependency>
+                <groupId>org.glassfish.main.extras</groupId>
+                <artifactId>glassfish-embedded-all</artifactId>
+                <version>${glassfish-embedded.version}</version>
+                <!--<scope>test</scope>-->
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.main.extras</groupId>
+                <artifactId>glassfish-embedded-web</artifactId>
+                <version>${glassfish-embedded.version}</version>
+                <!--<scope>test</scope>-->
+            </dependency>
+
+
+            <!--Hibernate-->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- Hibernate Validator -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator-version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--Annotations-->
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>${javax.annotation-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Servlet -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet.version}</version>
+                <!--<scope>provided</scope>-->
+            </dependency>
+
+            <!--JSF for simple servlet container like Tomcat, Jetty -->
+            <dependency>
+                <groupId>com.sun.faces</groupId>
+                <artifactId>jsf-api</artifactId>
+                <version>${jsf.version}</version>
+                <!--<scope>provided</scope>-->
+            </dependency>
+            <dependency>
+                <groupId>com.sun.faces</groupId>
+                <artifactId>jsf-impl</artifactId>
+                <version>${jsf.version}</version>
+                <!--<scope>provided</scope>-->
+            </dependency>
+
+            <!-- PrimeFaces -->
+            <dependency>
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>${primefaces.version}</version>
+            </dependency>
+
+            <!-- PrimeFaces Themes-->
+            <dependency>
+                <groupId>org.primefaces.themes</groupId>
+                <artifactId>all-themes</artifactId>
+                <version>${primefaces.themes.version}</version>
+            </dependency>
+
+            <!--CDI-->
+            <!--            <dependency>
+                            <groupId>javax.enterprise</groupId>
+                            <artifactId>cdi-api</artifactId>
+                            <version>${javax.cdi-api.version}</version>
+                            <scope>provided</scope>
+                        </dependency>-->
+
+            <!--EL Expression language-->
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>el-api</artifactId>
+                <version>${el.api.impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.web</groupId>
+                <artifactId>el-impl</artifactId>
+                <version>${el.api.impl.version}</version>
+            </dependency>
+
+            <!--JUnit-->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--Mock -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--Jetty-->
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-annotations</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-jsp</artifactId>
+                <version>${jetty.jsp.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-webapp</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlet</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <!--apache-jsp and apache-jstl from jetty -->
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>apache-jsp</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>apache-jstl</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Log-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <!--H2 Database-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <!--JPA-->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+        </dependency>
+
+        <!--JPA provider library: EclipseLink-->
+        <!--Pas besoin pour Wildfly-->
+        <!--        <dependency>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>org.eclipse.persistence.jpa</artifactId>
+                </dependency>-->
+        <!--Pas besoin pour Wildfly fin -->
+
+        <!--JAVA EE Api use for JSF annotations(conflit with Glassfish Embedded): we must not use Glassfish Dependency -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
+
+        <!--Glassfish Embedded: EJB embedded container for testing EJB in main class-->
+        <!-- en commentaire si on deploy sur Wildfly-->
+        <!--       <dependency>
+                    <groupId>org.glassfish.main.extras</groupId>
+                    <artifactId>glassfish-embedded-all</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.main.extras</groupId>
+                    <artifactId>glassfish-embedded-web</artifactId>
+                </dependency>-->
+
+        <!--Hibernate-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        <!-- Hibernate Validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <!--Annotations-->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+        </dependency>
+
+        <!-- Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <!--JSF for simple servlet container like Tomcat, Jetty -->
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+        </dependency>
+
+        <!-- PrimeFaces -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+        </dependency>
+
+        <!-- COMMONS -->
+        <!--Pas besoin pour Wildfly-->
+        <!--EL Expression language-->
+        <!--        <dependency>
+                    <groupId>javax.el</groupId>
+                    <artifactId>el-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.web</groupId>
+                    <artifactId>el-impl</artifactId>
+                </dependency>-->
+        <!--Pas besoin pour Wildfly fin-->
+
+        <!--JUnit-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+
+        <!--Jetty-->
+        <!--jetty-annotations en commentaire si on utilise Glassfish Embedded, conflit sur une dependence-->
+        <!--jetty-annotations est obligatoire si on veut utiliser JSF with Jetty -->
+        <!--       <dependency>
+                   <groupId>org.eclipse.jetty</groupId>
+                   <artifactId>jetty-annotations</artifactId>
+               </dependency>-->
+
+        <!--Pas besoin pour Wildfly, only for JSF basic with Jetty Server -->
+        <!--        <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-jsp</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-webapp</artifactId>
+                </dependency>-->
+        <!--Pas besoin pour Wildfly fin-->
+
+        <!--apache-jsp and apache-jstl from jetty -->
+        <!--apache-jsp en commentaire si on active jetty-maven-plugin, conflit sur une dependence-->
+        <!--        <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>apache-jsp</artifactId>
+                </dependency>
+
+               <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>apache-jstl</artifactId>
+                </dependency>-->
+        <!--Jetty end -->
+
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>${maven-ejb-plugin.version}</version>
+                <configuration>
+                    <ejbVersion>3.1</ejbVersion>
+                </configuration>
+            </plugin>
+
+            <!--v1 with Jetty in embedded mode started in main() de WebApplication-->
+            <!--v2 with jetty-maven-plugin-->
+            <plugin>
+                <!-- jetty-maven-plugin -->
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty-maven-plugin.version}</version>
+                <configuration>
+                    <httpConnector>
+                        <port>8090</port>
+                    </httpConnector>
+                    <webApp>
+                        <contextPath>/crm</contextPath>
+                    </webApp>
+                    <scanIntervalSeconds>60</scanIntervalSeconds>
+                </configuration>
+            </plugin>
+
+            <!-- wildfly-maven-plugin not used-->
+            <!--            <plugin>
+                            <groupId>org.wildfly.plugins</groupId>
+                            <artifactId>wildfly-maven-plugin</artifactId>
+                            <version>${wildfly-maven-plugin.version}</version>
+                            <configuration>
+                                <server-args>
+                                    <server-arg>-Djboss.http.port=9090</server-arg>
+                                </server-args>
+                            </configuration>
+                        </plugin>-->
+
+        </plugins>
+    </build>
+
+</project>

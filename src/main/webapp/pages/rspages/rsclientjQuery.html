@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <title></title>
+        <link href="../../resources/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="../../resources/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+        <script src="../../resources/js/bootstrap.min.js"></script>
+        <script src="../../resources/js/validator.min.js"></script>
+        <script src="../../resources/js/jquery.i18n.properties.min.js" type="text/javascript"></script>
+        <script src="clients.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // This will initialize the plugin
+                jQuery.i18n.properties({
+                    name:'common',
+                    path:'../../resources/messages/',
+                    mode:'both',
+                    async: true,
+                    callback: function() {
+                        init();
+                        loadClients();
+                    }
+                });
+            });
+
+        </script>
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-sm-8">
+                    <h1></h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8">
+                    <table id="listeClientsTable"
+                           class="table table-bordered table-condensed table-striped">
+                    </table>
+
+                    <div class="panel">
+                        <button id='create_bouton'  class="btn btn-primary" onclick="createClient();"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8">
+                    <form data-toggle="validator" role="form" id="clientForm">
+                        <div class="panel panel-primary">
+                            <div id="titleFiche" class="panel-heading"></div>
+                            <div class="panel-body">
+                                <div id="clientId" class="clearfix hidden-sm-up"></div>
+
+                                <div class="form-group">
+                                    <label id="lbNom" for="nom" class="control-label"></label>
+                                    <input type="text" class="form-control" id="nom" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label id="lbPrenom" for="prenom" class="control-label"></label>
+                                    <input type="text" class="form-control" id="prenom" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <button id='validate_bouton' class="btn btn-primary" onclick="createOrUpdate();"></button>
+                                        <button id='cancel_bouton'  class="btn btn-primary" onclick="cancelClient();"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

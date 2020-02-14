@@ -1,0 +1,64 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <!--pas besoin de transaction-type pour Wildfly-->
+    <!--<persistence-unit name="crm-pu" transaction-type="JTA" >-->
+
+    <persistence-unit name="crm-pu">
+        <!--<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+
+        <!--persistence provider is EclipseLink, used with Glassfish Embedded -->
+        <!--for Glassfish Embedded only-->
+        <!--<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>-->
+        <!--<jta-data-source>jdbc/__default</jta-data-source>-->
+
+        <!--Wildfly datasource-->
+        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+
+        <class>tech.dev.entites.Client</class>
+        <class>tech.dev.entites.Adresse</class>
+        <class>tech.dev.entites.Commande</class>
+
+        <properties>
+
+            <!--<property name="hibernate.hbm2ddl.auto" value="create-drop" />-->
+
+            <!--en commentaire si on deploy sur Wildfly le datasource est dans standalone.conf du serveur Wildfly -->
+            <!--<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />-->
+            <!--<property name="javax.persistence.jdbc.url"    value="jdbc:h2:mem:crm"/>-->
+            <!--<property name="javax.persistence.jdbc.user" value="sa" />-->
+            <!--<property name="javax.persistence.jdbc.password" value="" />-->
+            <!--<property name="hibernate.show_sql " value="true"/>-->
+
+            <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+            <!--<property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>-->
+            <!--<property name="javax.persistence.schema-generation.scripts.create-target" value="db/createTables.sql"/>-->
+            <!--<property name="javax.persistence.schema-generation.scripts.drop-target" value="sampleDrop.ddl"/>-->
+            <!--<property name="javax.persistence.sql-load-script-source" value="db/insertData.sql"/>-->
+            <!--en commentaire si on deploy sur Wildfly le datasource est dans standalone.conf du serveur Wildfly -->
+
+            <!--v1 insert lines by java code-->
+            <!--<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />-->
+
+            <!--v2 insert lines by scripts-->
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.create-source" value="script"/>
+            <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
+            <property name="javax.persistence.schema-generation.create-script-source" value="db/createTables.sql"/>
+            <!--insert data-->
+            <property name="javax.persistence.sql-load-script-source" value="db/insertData.sql"/>
+            <!--for generating scripts for drop-->
+            <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.drop-target" value="sampleDrop.ddl"/>
+            <property name="javax.persistence.schema-generation.scripts.create-target" value="sampleCreate.sql"/>
+            <!--<property name="eclipselink.logging.level" value="FINEST" />-->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+
+        </properties>
+    </persistence-unit>
+
+</persistence>

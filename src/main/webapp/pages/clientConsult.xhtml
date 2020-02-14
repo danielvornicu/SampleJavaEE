@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:ui = "http://java.sun.com/jsf/facelets">
+
+    <c:set var="clientCancelUrl" value="../" />
+
+    <div>
+        <h1>
+            <h:outputFormat value="#{msg['fiche.client.titre.consultation']}" >
+                <f:param value="#{client.prenom}" />
+                <f:param value="#{client.nom}" />
+            </h:outputFormat>
+        </h1>
+    </div>
+
+    <div>
+        <!--version HTML-->
+        <table>
+            <tbody>
+                <tr>
+                    <th><h:outputText value="#{msg['fiche.client.nom']}" /></th>
+                    <td>#{client.nom}</td>
+                </tr>
+                <tr>
+                    <th><h:outputText value="#{msg['fiche.client.prenom']}" /></th>
+                    <td>#{client.prenom}</td>
+                </tr>
+            </tbody>
+        </table>
+
+<!--        version JSF
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel for="nom" value="#{msg['fiche.client.nom']}" />
+                <h:outputText id="nom" value="#{clientConsult.nom}" />
+
+                <h:outputLabel for="prenom" value="#{msg['fiche.client.prenom']}" />
+                <h:outputText id="prenom" value="#{clientConsult.prenom}" />
+            </h:panelGrid>
+        </h:form>-->
+
+        <br/>
+        <h:button outcome="clientListe" value="#{msg['fiche.bouton.annuler']}" immediate="true"></h:button>
+        <!--<button id="cancel_bouton" type="button" onclick="self.location.href='#{clientCancelUrl}'"><h:outputText value="#{msg['fiche.bouton.annuler']}" /></button>-->
+    </div>
+
+</html>

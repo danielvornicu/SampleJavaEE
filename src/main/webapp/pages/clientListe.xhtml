@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:ui = "http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>Sample JSF</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </h:head>
+
+    <h:body>
+        <f:loadBundle var="msgg" basename="messages.common" />
+
+        <div>
+            <h1>
+                <h:outputText value="#{msg['liste.clients.jsf.titre']}" />
+            </h1>
+        </div>
+
+        <h:form>
+            <h:dataTable value = "#{clientBean.index()}" var = "client">
+
+                <h:column>
+                    <f:facet name = "header"><h:outputText value="#{msg['fiche.client.nom']}" /></f:facet>
+                    <h:outputText value="#{client.nom}"></h:outputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name = "header"><h:outputText value="#{msg['fiche.client.prenom']}" /></f:facet>
+                    <h:outputText value="#{client.prenom}"></h:outputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name = "header"><h:outputText value="#{msg['liste.action.titre']}" /></f:facet>
+                    <h:commandLink value="#{msg['liste.action.consulter']}" action="#{clientBean.show(client.id)}"/> |
+                    <h:commandLink value="#{msg['liste.action.modifier']}" action="#{clientBean.edit(client.id)}" /> |
+                    <h:commandLink value="#{msg['liste.action.supprimer']}" action="#{clientBean.delete(client.id)}"/>
+                </h:column>
+
+            </h:dataTable>
+
+            <br/>
+            <h:commandButton action="#{clientBean.newObject()}" value="#{msgg['fiche.bouton.creer']}"></h:commandButton>
+        </h:form>
+
+
+    </h:body>
+</html>

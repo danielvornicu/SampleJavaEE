@@ -1,0 +1,50 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:ui = "http://java.sun.com/jsf/facelets">
+
+    <c:set var="clientCancelUrl" value="../" />
+
+    <div>
+        <h1>
+            <c:choose>
+                <c:when test="#{clientForm.client.id == -1}">
+                    <h:outputText value="#{msg['fiche.client.titre.creation']}" />
+                </c:when>
+                <c:otherwise>
+                    <h:outputFormat value="#{msg['fiche.client.titre']}" >
+                        <f:param value="#{clientForm.client.prenom}" />
+                        <f:param value="#{clientForm.client.nom}" />
+                    </h:outputFormat>
+                </c:otherwise>
+            </c:choose>
+        </h1>
+    </div>
+
+    <h:form>
+
+        <h:panelGrid columns="3">
+            <h:outputLabel for="nom" value="#{msg['fiche.client.nom']}" />
+            <h:inputText value="#{clientForm.client.nom}" id="nom"></h:inputText>
+            <h:message for="nom" style="color:red" />
+
+            <h:outputLabel for="prenom" value="#{msg['fiche.client.prenom']}" />
+            <h:inputText value="#{clientForm.client.prenom}" id="prenom"></h:inputText>
+            <h:message for="prenom" style="color:red" />
+        </h:panelGrid>
+
+        <h:commandButton action="#{clientBean.createOrUpdate(clientForm.client)}" value="#{msg['fiche.bouton.valider']}">
+            <f:param name="isCreation" value="#{clientForm.client.id == -1}" />
+        </h:commandButton>
+        <h:button outcome="clientListe" value="#{msg['fiche.bouton.annuler']}" immediate="true"></h:button>
+
+        <!--<button id="cancel_bouton" type="button" onclick="self.location.href='${clientCancelUrl}'"><h:outputText value="#{msg['fiche.bouton.annuler']}" /></button>-->
+    </h:form>
+
+</html>
+
