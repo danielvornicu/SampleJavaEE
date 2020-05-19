@@ -78,7 +78,7 @@ http://localhost:8090/SampleJavaEE/api/clients/1/edit       update POST
 
 
 A simple client for REST api(client jQueryversion web):
-http://localhost:8090/SampleJavaEE/pages/rspages/rsclientjQuery.xhtml
+http://localhost:8090/SampleJavaEE/pages/rspages/rsclientjQuery.html
 
 
 http://jean-luc.massat.perso.luminy.univ-amu.fr/ens/arch-app/tp-JSF.html
