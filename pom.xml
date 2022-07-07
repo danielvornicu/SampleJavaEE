@@ -56,7 +56,7 @@
         <glassfish-embedded.version>4.0</glassfish-embedded.version>
 
         <!--Jetty 9.4.6.v20170531 testé-->
-        <jetty.version>9.4.15.v20190215</jetty.version>
+        <jetty.version>10.0.10</jetty.version>
         <!--Jetty JSP 9.2.25.v20180606 testé-->
         <jetty.jsp.version>9.2.26.v20180806</jetty.jsp.version>
         <!--Mock-->
